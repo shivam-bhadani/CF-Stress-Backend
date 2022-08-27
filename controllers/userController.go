@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func UserHandler(w http.ResponseWriter, r *http.Request) {
+func (app *Application) UserHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	cookie, err := r.Cookie("cfstressjwt")
 	if err != nil {

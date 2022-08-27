@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+func (app *Application) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	http.SetCookie(w,
 		&http.Cookie{

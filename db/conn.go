@@ -28,6 +28,5 @@ func DbConnection() (client *mongo.Client, err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return
 }

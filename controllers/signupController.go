@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func SignupHandler(w http.ResponseWriter, r *http.Request) {
+func (app *Application) SignupHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var user models.User
 	err := json.NewDecoder(r.Body).Decode(&user)

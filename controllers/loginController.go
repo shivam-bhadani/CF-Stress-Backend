@@ -13,7 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
+func (app *Application) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var credentials auth.Credentials
 	err := json.NewDecoder(r.Body).Decode(&credentials)
@@ -30,7 +30,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password)); err != nil {
-		json.NewEncoder(w).Encode("Password is incorrect")
+		json.NewEncoder(w).Encode("password is incorrect")
 		return
 	}
 	token, err := auth.GenerateJWT(credentials.Email)
