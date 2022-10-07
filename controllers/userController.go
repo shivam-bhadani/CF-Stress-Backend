@@ -28,6 +28,7 @@ func (app *Application) UserHandler(w http.ResponseWriter, r *http.Request) {
 	client, err := db.DbConnection()
 	userCollection := client.Database("cfstress").Collection("users")
 	err = userCollection.FindOne(context.TODO(), bson.M{"email": claims.Email}).Decode(&user)
+
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 		return

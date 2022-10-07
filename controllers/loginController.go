@@ -30,7 +30,7 @@ func (app *Application) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password)); err != nil {
-		json.NewEncoder(w).Encode("password is incorrect")
+		json.NewEncoder(w).Encode("Password is incorrect")
 		return
 	}
 	token, err := auth.GenerateJWT(credentials.Email)
@@ -43,6 +43,7 @@ func (app *Application) LoginHandler(w http.ResponseWriter, r *http.Request) {
 			Name:    "cfstressjwt",
 			Value:   token,
 			Expires: time.Now().Add(24 * 28 * time.Hour),
+			Path:    "/",
 		})
-	json.NewEncoder(w).Encode("success")
+	json.NewEncoder(w).Encode(user)
 }

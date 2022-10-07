@@ -12,6 +12,7 @@ func (app *Application) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 		&http.Cookie{
 			Name:    "cfstressjwt",
 			Value:   "",
+			Path:    "/",
 			Expires: time.Unix(0, 0),
 		})
 	json.NewEncoder(w).Encode("success")

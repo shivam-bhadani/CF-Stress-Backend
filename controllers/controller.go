@@ -1,9 +1,14 @@
 package controllers
 
+import (
+	"sync"
+
+	"github.com/shivam-bhadani/cf-stress-backend/pkg/store"
+)
+
 type Application struct {
-	Counter int
-}
-
-func (app *Application) IncreamentCounter() {
-
+	Counter     int
+	TicketStore store.TicketStore
+	Channel     chan bool
+	sync.Mutex
 }

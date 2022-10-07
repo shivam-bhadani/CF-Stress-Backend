@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/shivam-bhadani/cf-stress-backend/db"
@@ -21,21 +22,22 @@ func (app *Application) SignupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	client, err := db.DbConnection()
 	userCollection := client.Database("cfstress").Collection("users")
-	err = userCollection.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&user)
-	if err != nil {
+	res := userCollection.FindOne(context.TODO(), bson.M{"email": user.Email})
+	if res.Err() == nil {
 		json.NewEncoder(w).Encode("This email already exists")
+		fmt.Println(err)
 		return
 	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 	if err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode("Password does not match")
 		return
 	}
 	hashed := string(hash)
 	user.Password = hashed
-	insertResult, err := userCollection.InsertOne(context.TODO(), user)
+	_, err = userCollection.InsertOne(context.TODO(), user)
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 	}
-	json.NewEncoder(w).Encode(insertResult.InsertedID)
+	json.NewEncoder(w).Encode("success")
 }
