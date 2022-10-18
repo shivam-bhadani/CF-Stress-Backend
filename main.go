@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/handlers"
 	"github.com/shivam-bhadani/cf-stress-backend/pkg/store/mongodb"
@@ -17,13 +18,14 @@ func main() {
 		fmt.Println(err)
 	}
 
+	port := os.Getenv("PORT")
+
 	app, r := web.CreateWebServer(counter, ticketStore)
 
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
-	origins := handlers.AllowedOrigins([]string{"http://localhost:3000"})
+	origins := handlers.AllowedOrigins([]string{"https://cfstress.vercel.app/"})
 	cred := handlers.AllowCredentials()
 	fmt.Println(app.Counter)
-	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(headers, methods, origins, cred)(r)))
-
+	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(headers, methods, origins, cred)(r)))
 }
