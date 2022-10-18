@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/handlers"
+	"github.com/joho/godotenv"
 	"github.com/shivam-bhadani/cf-stress-backend/pkg/store/mongodb"
 	"github.com/shivam-bhadani/cf-stress-backend/pkg/web"
 )
@@ -17,7 +18,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	godotenv.Load()
 	port := os.Getenv("PORT")
 
 	app, r := web.CreateWebServer(counter, ticketStore)
