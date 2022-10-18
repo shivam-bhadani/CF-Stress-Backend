@@ -75,45 +75,51 @@ func StressTest(ticket *models.Ticket) error {
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, checkerScriptPath, args...)
-	result, err := cmd.CombinedOutput()
+	_, err = cmd.CombinedOutput()
 	if err != nil {
-		errorMessage := "Error received in stress testing..."
-		fmt.Println("error in running script")
-		fmt.Println(err)
-		os.Stdout.Write(result)
+		errorMessage := "Deadline of Stress Testing Exceeded and Couldn't Find any Wrong Testcase..."
+		// fmt.Println("error in running script")
+		// fmt.Println(err)
+		// os.Stdout.Write(result)
 		UpdateTicketError(ticket, errorMessage)
+		CleanResources(ticket)
 		return errors.New(errorMessage)
 	}
 	if ctx.Err() == context.DeadlineExceeded {
-		errorMessage := "Deadline of Stress Testing Exceeded..."
-		fmt.Println("error : deadline exceeded")
+		errorMessage := "Deadline of Stress Testing Exceeded and Couldn't Find any Wrong Testcase..."
+		// fmt.Println("error : deadline exceeded")
 		UpdateTicketError(ticket, errorMessage)
+		CleanResources(ticket)
 		return errors.New(errorMessage)
 	}
 	input, err := utils.ReadFile(inputFilePath)
 	if err != nil {
 		errorMessage := "Error received in stress testing..."
-		fmt.Println("error : input file read problem")
+		// fmt.Println("error : input file read problem")
 		fmt.Println(err)
 		UpdateTicketError(ticket, errorMessage)
+		CleanResources(ticket)
 		return errors.New(errorMessage)
 	}
 	participant_output, err := utils.ReadFile(participantOutputFilePath)
 	if err != nil {
 		errorMessage := "Error received in stress testing..."
-		fmt.Println("participant_file output file read problem")
+		// fmt.Println("participant_file output file read problem")
 		UpdateTicketError(ticket, errorMessage)
+		CleanResources(ticket)
 		return errors.New(errorMessage)
 	}
 	jury_output, err := utils.ReadFile(juryOutputFilePath)
 	if err != nil {
 		errorMessage := "Error received in stress testing..."
-		fmt.Println("error : jury_file output file read problem")
+		// fmt.Println("error : jury_file output file read problem")
 		UpdateTicketError(ticket, errorMessage)
+		CleanResources(ticket)
 		return errors.New(errorMessage)
 	}
 	err = UpdateTicketProcessed(ticket, input, participant_output, jury_output)
 	if err != nil {
+		CleanResources(ticket)
 		return err
 	}
 	CleanResources(ticket)
@@ -139,7 +145,7 @@ func UpdateTicketProcessed(ticket *models.Ticket, input string, participant_outp
 	}}
 	_, err = ticketsCollection.UpdateOne(context.TODO(), filter, update)
 	if err != nil {
-		fmt.Println("error : database updation problem")
+		// fmt.Println("error : database updation problem")
 		return errors.New("Error received in stress testing...")
 	}
 	return nil

@@ -19,6 +19,7 @@ func CreateWebServer(counter int, ticketStore store.TicketStore) (app *controlle
 	r.HandleFunc("/api/login", app.LoginHandler).Methods("POST", "OPTIONS")
 	r.HandleFunc("/api/user", app.UserHandler).Methods("GET", "OPTIONS")
 	r.HandleFunc("/api/logout", app.LogoutHandler).Methods("POST", "OPTIONS")
+	r.HandleFunc("/api/contact", app.ContactController).Methods("POST", "OPTIONS")
 
 	r.HandleFunc("/api/test/{contestID}/{problemIndex}", app.TestHandler).Methods("POST", "OPTIONS")
 	r.HandleFunc("/api/status/{ticketID}", app.StatusHandler).Methods("GET")

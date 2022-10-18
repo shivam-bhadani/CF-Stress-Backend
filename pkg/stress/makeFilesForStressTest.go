@@ -86,5 +86,5 @@ func UpdateTicketError(ticket *models.Ticket, message string) error {
 	if err != nil {
 		return err
 	}
-	return errors.New("Currently stress test for this problem is not available. We will surely add this problem after some days.")
+	return errors.New(message)
 }

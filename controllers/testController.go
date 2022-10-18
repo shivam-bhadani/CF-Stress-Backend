@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -72,10 +71,7 @@ func (app *Application) TestHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		app.TicketStore.Add(&ticket)
 		// processing the submission
-		err := stress.ProcessTicket(&ticket)
-		if err != nil {
-			fmt.Println(err)
-		}
+		_ = stress.ProcessTicket(&ticket)
 		app.Channel <- true
 	}(app.Counter)
 
