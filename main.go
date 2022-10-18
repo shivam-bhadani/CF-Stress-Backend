@@ -20,6 +20,9 @@ func main() {
 	}
 	godotenv.Load()
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	app, r := web.CreateWebServer(counter, ticketStore)
 
