@@ -122,7 +122,7 @@ func StressTest(ticket *models.Ticket) error {
 		CleanResources(ticket)
 		return err
 	}
-	// CleanResources(ticket)
+	CleanResources(ticket)
 	return nil
 }
 
