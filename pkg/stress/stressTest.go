@@ -122,7 +122,7 @@ func StressTest(ticket *models.Ticket) error {
 		CleanResources(ticket)
 		return err
 	}
-	CleanResources(ticket)
+	// CleanResources(ticket)
 	return nil
 }
 
@@ -132,6 +132,7 @@ func UpdateTicketProcessed(ticket *models.Ticket, input string, participant_outp
 		return err
 	}
 	ticketsCollection := client.Database("cfstress").Collection("tickets")
+	fmt.Println(participant_output)
 	testCase := models.Testcase{
 		Input:             input,
 		JuryOutput:        jury_output,
