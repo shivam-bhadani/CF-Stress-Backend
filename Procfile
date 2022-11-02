@@ -1,1 +1,1 @@
-web: bin/cf-stress-backend
+web: cf-stress-backend
