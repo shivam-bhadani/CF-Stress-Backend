@@ -11,6 +11,7 @@ func MakeFile(path string, fileName string) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(wd, path)
 	pathToCreateFile := filepath.Join(wd, path)
 	fileToCreate := filepath.Join(pathToCreateFile, fileName)
 	file, err := os.Create(fileToCreate)
