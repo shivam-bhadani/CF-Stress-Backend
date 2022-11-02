@@ -26,7 +26,7 @@ func main() {
 
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
-	origins := handlers.AllowedOrigins([]string{"https://cfstress.vercel.app/"})
+	origins := handlers.AllowedOrigins([]string{"https://cfstress.vercel.app"})
 	cred := handlers.AllowCredentials()
 	fmt.Println(app.Counter)
 	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(headers, methods, origins, cred)(r)))
